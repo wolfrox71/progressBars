@@ -11,7 +11,7 @@ int main(int argc, char **argv) {
         fprintf(stderr,"[ERROR] Cannot open file\r\n");
         return -1;
     }
-    int c, num = 0;
+    int c, num = 0, start_len = -1, end_len = -1;
     // go to the end of the file
     fseek(f, 0, SEEK_END);
     // see how far skipped
@@ -19,8 +19,15 @@ int main(int argc, char **argv) {
     // go back to the start of the file
     fseek(f,0, SEEK_SET);
     // read every char
+    printf("Reading char");
     while ((c=fgetc(f))!=EOF) 
-        printf("\rReading char %d of %d", ++num, lenOfFile);
+        if (end_len == -1 || start_len == -1) 
+            printf("\rReading char %n%d of %d%n", &start_len, ++num, lenOfFile, &end_len);
+        else {
+            for (int i = 0; i < (end_len-start_len); i++)
+                printf("\b"); // delete up to "Reading char " from the back
+            printf("%d of %d", ++num, lenOfFile);
+        }
     // 
     printf("\r\nEOF\r\n");
     // close the file
