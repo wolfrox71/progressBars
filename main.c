@@ -24,9 +24,10 @@ int main(int argc, char **argv) {
         if (end_len == -1 || start_len == -1) 
             printf("\rReading char %n%d of %d%n", &start_len, ++num, lenOfFile, &end_len);
         else {
+            // fprintf(stderr, "%d\n", (end_len-start_len));
             for (int i = 0; i < (end_len-start_len); i++)
                 printf("\b"); // delete up to "Reading char " from the back
-            printf("%d of %d", ++num, lenOfFile);
+            printf("%n%d of %d%n", &start_len, ++num, lenOfFile, &end_len);
         }
     // 
     printf("\r\nEOF\r\n");
